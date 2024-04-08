@@ -6,21 +6,25 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import Link from "@/node_modules/next/link";
 
-export default function HomePage() {
+
+const ProfileImage = () => {
   const mobile = useMediaQuery("(max-width:480px)");
 
-  const imageStyle = {
+  let imageStyle = {
     borderRadius: "50%",
-    my: "8rem",
-    position: mobile ? "absolute" : "static",
-    top: mobile ? "10px" : "",
-    right: mobile ? "10px" : "",
-    border: "3px solid #1976d282",
+    margin: mobile ? "1rem 0" : "4rem 0",
+    border: "2px solid #885a95e0",
   };
 
-  return (
-    <>
-      <Box sx={{ my: mobile ? "" : "5rem" }}>
+  if (mobile) {
+    return (
+      <Box
+        sx={{
+          position: "absolute",
+          right: "1rem",
+          top: "0rem",
+        }}
+      >
         <Image
           src={"/profile.jpg"}
           width={mobile ? 100 : 200}
@@ -30,22 +34,51 @@ export default function HomePage() {
           priority={true}
         />
       </Box>
+    );
+  }
+  return (
+    <Image
+      src={"/profile.jpg"}
+      width={mobile ? 100 : 200}
+      height={mobile ? 100 : 200}
+      alt="Picture of the Prakash"
+      style={imageStyle}
+      priority={true}
+    />
+  );
+};
 
-      <LinkedInIcon
-        color="secondary"
-        fontSize={mobile ? "medium" : "large"}
-        sx={{ cursor: "pointer" }}
-      />
+const ProfileLinks = () => {
+  const mobile = useMediaQuery("(max-width:480px)");
 
-      <Link href="https://github.com/valluri-tech" target="_blank">
-        <GitHubIcon
-          color="black"
+  return (
+    <Box sx={{ my: mobile ? "5rem" : "", border: "1px solid red" }}>
+      <Link href="https://linkedin.com/in/valluri-satya" target="_blank">
+        <LinkedInIcon
+          color="secondary"
           fontSize={mobile ? "medium" : "large"}
           sx={{ cursor: "pointer" }}
         />
       </Link>
 
-      <Box sx={{ my: mobile ? "8rem" : "" }}>
+      <Link href="https://github.com/valluri-tech" target="_blank">
+        <GitHubIcon
+          fontSize={mobile ? "medium" : "large"}
+          sx={{ cursor: "pointer" }}
+        />
+      </Link>
+    </Box>
+  );
+};
+
+export default function HomePage() {
+  const mobile = useMediaQuery("(max-width:480px)");
+
+  return (
+    <>
+      <ProfileImage />
+      <ProfileLinks />
+      <Box sx={{ my: mobile ? "2rem" : "" }}>
         <Typography
           component="h1"
           variant={mobile ? "h5" : "h4"}
