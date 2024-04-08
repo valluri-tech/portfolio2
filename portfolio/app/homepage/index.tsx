@@ -13,7 +13,8 @@ const ProfileImage = () => {
   let imageStyle = {
     borderRadius: "50%",
     margin: mobile ? "1rem 0" : "4rem 0",
-    border: "2px solid #885a95e0",
+    boxShadow:
+      "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
   };
 
   if (mobile) {
@@ -49,10 +50,27 @@ const ProfileImage = () => {
 };
 
 const ProfileLinks = () => {
+  const largeDesktop = useMediaQuery("(min-width:1200px)");
+  const desktop = useMediaQuery("(min-width:992px)");
   const mobile = useMediaQuery("(max-width:480px)");
+  let containerStyles = {
+    my: mobile ? "5rem" : "",
+    // border: "1px solid red",
+    width: largeDesktop ? "10%" : desktop ? "15%" : "20%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginLeft: "1.5rem",
+  };
 
+  if (mobile) {
+    containerStyles = {
+      ...containerStyles,
+      ...{ position: "absolute", right: "2rem", top: "3.5rem", width: "21%" },
+    };
+  }
   return (
-    <Box sx={{ my: mobile ? "5rem" : "", border: "1px solid red" }}>
+    <Box sx={containerStyles}>
       <Link href="https://linkedin.com/in/valluri-satya" target="_blank">
         <LinkedInIcon
           color="secondary"
@@ -78,7 +96,7 @@ export default function HomePage() {
     <>
       <ProfileImage />
       <ProfileLinks />
-      <Box sx={{ my: mobile ? "2rem" : "" }}>
+      <Box sx={{ my: mobile ? "8rem" : "" }}>
         <Typography
           component="h1"
           variant={mobile ? "h5" : "h4"}
