@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function HomePage() {
@@ -14,29 +14,32 @@ export default function HomePage() {
     right: mobile ? "10px" : "",
   };
 
-  if (mobile) {
-    return (
-      <Image
-        src={"/profile.jpg"}
-        width={100}
-        height={100}
-        alt="Picture of the Prakash"
-        style={imageStyle}
-        priority={true}
-      />
-    );
-  }
-
   return (
-    <Box sx={{ my: "8rem" }}>
-      <Image
-        src={"/profile.jpg"}
-        width={200}
-        height={200}
-        alt="Picture of the Prakash"
-        style={imageStyle}
-        priority={true}
-      />
-    </Box>
+    <>
+      <Box sx={{ my: mobile ? "" : "8rem" }}>
+        <Image
+          src={"/profile.jpg"}
+          width={mobile ? 100 : 200}
+          height={mobile ? 100 : 200}
+          alt="Picture of the Prakash"
+          style={imageStyle}
+          priority={true}
+        />
+      </Box>
+      <Box sx={{ my: mobile ? "8rem" : "" }}>
+        <Typography component="h1" variant="h5" gutterBottom>
+          Prakash is working as a Senior Software engineer at Slalom Build.
+        </Typography>
+        <Typography
+          component="h1"
+          variant="h6"
+          gutterBottom
+          sx={{ my: "2rem" }}
+        >
+          He has worked in different software technologies which are used in
+          todays web development world.
+        </Typography>
+      </Box>
+    </>
   );
 }
