@@ -22,12 +22,25 @@ export default function NavBar() {
   if (mobile) {
     return (
       <>
-        <nav className={styles.navMobile} onClick={handleClick}>
+        <nav
+          className={styles.navMobile}
+          onClick={handleClick}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : "false"}
+          aria-controls={open ? "popup-menu" : undefined}
+          id="mobile-menu-icon"
+        >
           <Box sx={{ cursor: "pointer" }}>
             <MenuRoundedIcon fontSize="large" color="primary" />
           </Box>
         </nav>
-        <Menu anchorEl={anchorEl} onClose={handleClose} open={open}>
+        <Menu
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          open={open}
+          id="popup-menu"
+          MenuListProps={{ "aria-labelledby": "mobile-menu-icon" }}
+        >
           <MenuItem onClick={handleClose}>
             {" "}
             <Link style={{ textDecoration: "none" }} href="/">
