@@ -1,6 +1,6 @@
 "use client";
 import Link from "@/node_modules/next/link";
-import { Button, Box, Menu, MenuItem } from "@mui/material";
+import { Button, Box, Menu, MenuItem, Typography } from "@mui/material";
 
 import styles from "./index.module.css";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -44,18 +44,39 @@ export default function NavBar() {
           <MenuItem onClick={handleClose}>
             {" "}
             <Link style={{ textDecoration: "none" }} href="/">
-              Home{" "}
+              <Typography
+                component="body1"
+                variant={"body1"}
+                color="primary.main"
+              >
+                {" "}
+                Home
+              </Typography>
             </Link>
           </MenuItem>
           <MenuItem onClick={handleClose}>
             <Link style={{ textDecoration: "none" }} href="/experience">
-              Experience{" "}
+              <Typography
+                component="body1"
+                variant={"body1"}
+                color="primary.main"
+              >
+                {" "}
+                Experience
+              </Typography>
             </Link>
           </MenuItem>
           <MenuItem onClick={handleClose}>
             {" "}
             <Link style={{ textDecoration: "none" }} href="/skills">
-              Skill
+              <Typography
+                component="body1"
+                variant={"body1"}
+                color="primary.main"
+              >
+                {" "}
+                Skills
+              </Typography>
             </Link>
           </MenuItem>
         </Menu>

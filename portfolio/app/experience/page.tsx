@@ -19,7 +19,7 @@ const ExperienceCard = (props: any) => {
         display: "flex",
         flexDirection: tablet ? "column" : "row",
         width: "80%",
-        height: tablet ? "10rem" : "10rem",
+        height: mobile ? "" : "10rem",
         marginLeft: "1rem",
         boxShadow: "-1px 0.5px 3px #1976d2",
         padding: "2rem",
@@ -46,11 +46,15 @@ const ExperienceCard = (props: any) => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-around",
-          marginBottom: tablet ? "1rem" : "",
+          // marginBottom: tablet ? "1rem" : mobile ? "2rem" : "",
         }}
       >
-        <div>{companyName}</div>
-        <div>{workDuration}</div>
+        <Typography component="h1" variant={"body1"} color="primary.main">
+          {companyName}
+        </Typography>
+        <Typography component="h1" variant={"body1"} color="primary.main">
+          {workDuration}
+        </Typography>
       </Box>
     </Box>
   );
@@ -59,28 +63,28 @@ const ExperienceCard = (props: any) => {
 const ExpInfo = [
   {
     name: "Slalom Build",
-    duration: "2022 January - Present",
+    duration: "2022 Jan - Present",
     imgName: "build.jpg",
     width: 75,
     height: 70,
   },
   {
     name: "ANZ Bank",
-    duration: "2021 December - 2022 January",
+    duration: "2021 Dec - 2022 Jan",
     imgName: "anz.jpg",
     width: 140,
     height: 40,
   },
   {
     name: "Infosys Australia Pvt Ltd",
-    duration: "2021 December - 2022 January",
+    duration: "2021 Dec - 2022 Jan",
     imgName: "infy.jpg",
     width: 150,
     height: 70,
   },
   {
     name: "ABB",
-    duration: "2010 July - 2021 November",
+    duration: "2010 July - 2021 Nov",
     imgName: "abb.jpg",
     width: 120,
     height: 40,
