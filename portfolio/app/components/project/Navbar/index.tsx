@@ -44,11 +44,7 @@ export default function NavBar() {
           <MenuItem onClick={handleClose}>
             {" "}
             <Link style={{ textDecoration: "none" }} href="/">
-              <Typography
-                component="body1"
-                variant={"body1"}
-                color="primary.main"
-              >
+              <Typography variant={"body1"} color="primary.main">
                 {" "}
                 Home
               </Typography>
@@ -56,11 +52,7 @@ export default function NavBar() {
           </MenuItem>
           <MenuItem onClick={handleClose}>
             <Link style={{ textDecoration: "none" }} href="/experience">
-              <Typography
-                component="body1"
-                variant={"body1"}
-                color="primary.main"
-              >
+              <Typography variant={"body1"} color="primary.main">
                 {" "}
                 Experience
               </Typography>
@@ -69,11 +61,7 @@ export default function NavBar() {
           <MenuItem onClick={handleClose}>
             {" "}
             <Link style={{ textDecoration: "none" }} href="/skills">
-              <Typography
-                component="body1"
-                variant={"body1"}
-                color="primary.main"
-              >
+              <Typography variant={"body1"} color="primary.main">
                 {" "}
                 Skills
               </Typography>
