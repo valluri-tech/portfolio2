@@ -69,6 +69,7 @@ const ProfileLinks = () => {
       ...{ position: "absolute", right: "2rem", top: "3.5rem", width: "21%" },
     };
   }
+
   return (
     <Box sx={containerStyles}>
       <Link href="https://linkedin.com/in/valluri-satya" target="_blank">
@@ -96,7 +97,7 @@ export default function HomePage() {
     <>
       <ProfileImage />
       <ProfileLinks />
-      <Box sx={{ my: mobile ? "8rem" : "" }}>
+      <Box sx={{ my: mobile ? "8rem" : "3rem" }}>
         <Typography
           component="h1"
           variant={mobile ? "h5" : "h4"}
