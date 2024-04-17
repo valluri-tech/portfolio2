@@ -2,18 +2,42 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Pagination from "../components/common/Pagination/index";
+import Button from "@mui/material/Button";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
 
 export default function Visits() {
   const [resp, setResp] = useState({});
+  const [forPreviousResultsLEK, SetForPreviousResultsLEK] = useState(null);
+  const [lekMap, setLekMap] = useState(new Map());
+
+  const [isPrevBtnEnabled, SetIsPrevBtnEnabled] = useState(false);
+  const [isNextBtnEnabled, SetIsNextBtnEnabled] = useState(true);
+  const [pageNumber, SetPageNumber] = useState(1);
+  const [isLoading, SetIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log("send request - Visits page");
+    setLekMap(lekMap.set("1", null));
     (async () => {
       axios
         .get("https://api.valluri-tech.com/portfolio")
         .then((response: any) => {
           // Handle the response
           setResp(response?.data);
+          setLekMap(
+            lekMap.set(
+              Number(pageNumber + 1).toString(),
+              response?.data?.LastEvaluatedKey
+            )
+          );
+          SetIsLoading(false);
         })
         .catch((error: any) => {
           // Handle errors
@@ -22,28 +46,9 @@ export default function Visits() {
     })();
   }, []);
 
-  //   console.log(resp);
   async function getNextResults() {
-    // axios
-    //   .get("https://api.valluri-tech.com/portfolio")
-    //   .then((response: any) => {
-    //     // Handle the response
-    //     setResp(response?.data);
-    //   })
-    //   .catch((error: any) => {
-    //     // Handle errors
-    //     console.log("error");
-    //   });
+    SetIsLoading(true);
     if (resp) {
-      //   const LastEvaluatedKey = resp?.LastEvaluatedKey;
-      //   const  = resp?.totalNumberRows;
-      //   const qpStr = encodeURI(
-      //     JSON.stringify({ LastEvaluatedKey, totalNumberRows })
-      //     // JSON.stringify({ name: "satya", location: "Melbourne" })
-      //   );
-      //   console.log(decodeURI(qpStr));
-      //   let lek = JSON.stringify(resp?.LastEvaluatedKey);
-      //   let tnr = JSON.stringify(resp?.totalNumberRows);
       axios
         .get("https://api.valluri-tech.com/portfolio", {
           params: {
@@ -53,33 +58,116 @@ export default function Visits() {
             }),
           },
         })
-        .then((response: any) => setResp(response?.data))
+        .then((response: any) => {
+          SetIsLoading(false);
+
+          setLekMap(
+            lekMap.set(
+              Number(pageNumber + 2).toString(),
+              response?.data?.LastEvaluatedKey
+            )
+          );
+          if (pageNumber === resp?.totalNumberRows / resp?.ScannedCount - 1) {
+            SetIsNextBtnEnabled(false);
+          }
+          SetIsPrevBtnEnabled(true);
+          setResp(response?.data);
+          SetPageNumber((pv) => pv + 1);
+        })
+        .catch((error: any) => console.log(error));
+    }
+  }
+
+  async function getPreviousResults() {
+    SetIsLoading(true);
+    if (resp) {
+      axios
+        .get("https://api.valluri-tech.com/portfolio", {
+          params: {
+            queryParams: JSON.stringify({
+              LastEvaluatedKey: lekMap.get(Number(pageNumber - 1).toString()),
+              totalNumberRows: resp?.totalNumberRows,
+            }),
+          },
+        })
+        .then((response: any) => {
+          SetIsLoading(false);
+
+          SetIsNextBtnEnabled(true);
+          if (pageNumber === 2) {
+            SetIsPrevBtnEnabled(false);
+          } else {
+            SetIsPrevBtnEnabled(true);
+          }
+          setResp(response?.data);
+          SetPageNumber((pv) => pv - 1);
+        })
         .catch((error: any) => console.log(error));
     }
   }
 
   return (
     <>
-      <ul>
+      <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <Button
+          variant="outlined"
+          startIcon={<ArrowBackIosIcon />}
+          onClick={getPreviousResults}
+          disabled={!isPrevBtnEnabled}
+        >
+          Prev
+        </Button>
         {/* @ts-ignore */}
-        {resp?.Items?.map((visit: any, index: number) => {
-          return (
-            <li key={index}>
-              {visit.UserAgent.S} {visit.Location.S}{" "}
-              {visit.DHMS.S.replace(/[#]/g, "-")}
-            </li>
-          );
-        })}
-        {resp?.totalNumberRows && (
-          <div>
-            <br />
-            Showing {resp?.Count} results out of {resp?.totalNumberRows}{" "}
-            results.
-          </div>
+        {!isLoading && resp?.totalNumberRows && (
+          <Chip
+            label={`Page ${pageNumber}. Total records : ${resp?.totalNumberRows}`}
+            color="primary"
+            variant="outlined"
+            sx={{ mt: 0.5, ml: 15, mr: 15 }}
+          ></Chip>
         )}
-      </ul>
+        <Button
+          variant="outlined"
+          endIcon={<ArrowForwardIosIcon />}
+          onClick={getNextResults}
+          disabled={!isNextBtnEnabled}
+        >
+          Next
+        </Button>
+      </Box>
+
       <br />
-      <button onClick={getNextResults}>Get Next Results</button>
+      {!isLoading && resp?.totalNumberRows && (
+        <Chip
+          label={`Showing records ${
+            resp?.ScannedCount * (pageNumber - 1) + 1
+          } to ${resp?.ScannedCount * pageNumber}`}
+          color="success"
+        ></Chip>
+      )}
+
+      <br />
+      <br />
+      {isLoading ? (
+        <div>Loading</div>
+      ) : (
+        <List>
+          {resp?.Items?.map((visit: any, index: number) => {
+            let ls = visit.UserAgent.S + " - " + visit.Location.S;
+            return (
+              <ListItem disablePadding key={index}>
+                <ListItemButton>
+                  <ListItemText
+                    primary={visit.DHMS.S.replace(/[#]/g, "-")}
+                    secondary={ls}
+                  />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </List>
+      )}
+      <br />
     </>
   );
 }
@@ -107,3 +195,5 @@ export default function Visits() {
 //     },
 // totalNumberRows: 2
 //   }
+
+
