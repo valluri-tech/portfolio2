@@ -16,6 +16,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import IconButton from "@mui/material/IconButton";
 
+const BACKEND_PAGINATION_NUMBER = 5;
 export default function Visits() {
   const [resp, setResp] = useState({});
   const [forPreviousResultsLEK, SetForPreviousResultsLEK] = useState(null);
@@ -76,7 +77,6 @@ export default function Visits() {
             )
           );
           //@ts-ignore
-          console.log(Object.keys(response?.data));
           if (Object.keys(response?.data).indexOf("LastEvaluatedKey") === -1) {
             SetIsNextBtnEnabled(false);
           }
@@ -174,13 +174,15 @@ export default function Visits() {
 
       <br />
       {/* @ts-ignore */}
-      {!isLoading && resp?.totalNumberRows && (
+      {!isLoading && resp?.totalNumberRows && resp?.ScannedCount && (
         <Chip
           label={`Showing records ${
             //@ts-ignore
-            resp?.ScannedCount * (pageNumber - 1) + 1
+            BACKEND_PAGINATION_NUMBER * (pageNumber - 1) + 1
             //@ts-ignore
-          } to ${resp?.ScannedCount * pageNumber}`}
+          } to ${
+            BACKEND_PAGINATION_NUMBER * (pageNumber - 1) + resp?.ScannedCount
+          }`}
           color="success"
         ></Chip>
       )}
