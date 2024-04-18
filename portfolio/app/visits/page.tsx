@@ -181,6 +181,7 @@ export default function Visits() {
             BACKEND_PAGINATION_NUMBER * (pageNumber - 1) + 1
             //@ts-ignore
           } to ${
+            //@ts-ignore
             BACKEND_PAGINATION_NUMBER * (pageNumber - 1) + resp?.ScannedCount
           }`}
           color="success"
