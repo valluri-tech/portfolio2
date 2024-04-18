@@ -60,10 +60,10 @@ export default function NavBar() {
           </MenuItem>
           <MenuItem onClick={handleClose}>
             {" "}
-            <Link style={{ textDecoration: "none" }} href="/skills">
+            <Link style={{ textDecoration: "none" }} href="/visits">
               <Typography variant={"body1"} color="primary.main">
                 {" "}
-                Skills
+                Visits
               </Typography>
             </Link>
           </MenuItem>
@@ -87,8 +87,8 @@ export default function NavBar() {
         <Link href="/experience">
           <Button variant="contained">Experience</Button>
         </Link>
-        <Link href="/skills">
-          <Button variant="contained">Skill</Button>
+        <Link href="/visits">
+          <Button variant="contained">Visits</Button>
         </Link>
       </Box>
     </nav>

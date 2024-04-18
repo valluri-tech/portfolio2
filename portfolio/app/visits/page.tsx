@@ -12,6 +12,9 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
+import CircularProgress from "@mui/material/CircularProgress";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import IconButton from "@mui/material/IconButton";
 
 export default function Visits() {
   const [resp, setResp] = useState({});
@@ -22,6 +25,7 @@ export default function Visits() {
   const [isNextBtnEnabled, SetIsNextBtnEnabled] = useState(true);
   const [pageNumber, SetPageNumber] = useState(1);
   const [isLoading, SetIsLoading] = useState(true);
+  const mobile = useMediaQuery("(max-width:480px)");
 
   useEffect(() => {
     setLekMap(lekMap.set("1", null));
@@ -48,26 +52,32 @@ export default function Visits() {
 
   async function getNextResults() {
     SetIsLoading(true);
-    if (resp) {
+    //@ts-ignore
+    if (resp && resp?.LastEvaluatedKey) {
       axios
         .get("https://api.valluri-tech.com/portfolio", {
           params: {
             queryParams: JSON.stringify({
+              //@ts-ignore
               LastEvaluatedKey: resp?.LastEvaluatedKey,
+              //@ts-ignore
               totalNumberRows: resp?.totalNumberRows,
             }),
           },
         })
         .then((response: any) => {
+          // If you have displayed 'n' number of results
+          // And if you add the scanned count
           SetIsLoading(false);
-
           setLekMap(
             lekMap.set(
               Number(pageNumber + 2).toString(),
               response?.data?.LastEvaluatedKey
             )
           );
-          if (pageNumber === resp?.totalNumberRows / resp?.ScannedCount - 1) {
+          //@ts-ignore
+          console.log(Object.keys(response?.data));
+          if (Object.keys(response?.data).indexOf("LastEvaluatedKey") === -1) {
             SetIsNextBtnEnabled(false);
           }
           SetIsPrevBtnEnabled(true);
@@ -86,6 +96,7 @@ export default function Visits() {
           params: {
             queryParams: JSON.stringify({
               LastEvaluatedKey: lekMap.get(Number(pageNumber - 1).toString()),
+              //@ts-ignore
               totalNumberRows: resp?.totalNumberRows,
             }),
           },
@@ -109,38 +120,66 @@ export default function Visits() {
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "row" }}>
-        <Button
-          variant="outlined"
-          startIcon={<ArrowBackIosIcon />}
-          onClick={getPreviousResults}
-          disabled={!isPrevBtnEnabled}
-        >
-          Prev
-        </Button>
-        {/* @ts-ignore */}
-        {!isLoading && resp?.totalNumberRows && (
-          <Chip
-            label={`Page ${pageNumber}. Total records : ${resp?.totalNumberRows}`}
-            color="primary"
+        {mobile ? (
+          <IconButton
+            aria-label="delete"
+            onClick={getPreviousResults}
+            disabled={!isPrevBtnEnabled}
+          >
+            <ArrowBackIosIcon />
+          </IconButton>
+        ) : (
+          <Button
             variant="outlined"
-            sx={{ mt: 0.5, ml: 15, mr: 15 }}
-          ></Chip>
+            startIcon={<ArrowBackIosIcon />}
+            onClick={getPreviousResults}
+            disabled={!isPrevBtnEnabled}
+          >
+            Prev
+          </Button>
         )}
-        <Button
+
+        <Chip
+          label={
+            //@ts-ignore
+            !isLoading && resp?.totalNumberRows
+              ? //@ts-ignore
+                `Page ${pageNumber}. Total records : ${resp?.totalNumberRows}`
+              : "Loading"
+          }
+          color="primary"
           variant="outlined"
-          endIcon={<ArrowForwardIosIcon />}
-          onClick={getNextResults}
-          disabled={!isNextBtnEnabled}
-        >
-          Next
-        </Button>
+          sx={{ mt: 0.5, ml: mobile ? 0 : 15, mr: mobile ? 0 : 15 }}
+        ></Chip>
+
+        {mobile ? (
+          <IconButton
+            aria-label="delete"
+            onClick={getNextResults}
+            disabled={!isNextBtnEnabled}
+          >
+            <ArrowForwardIosIcon />
+          </IconButton>
+        ) : (
+          <Button
+            variant="outlined"
+            endIcon={<ArrowForwardIosIcon />}
+            onClick={getNextResults}
+            disabled={!isNextBtnEnabled}
+          >
+            Next
+          </Button>
+        )}
       </Box>
 
       <br />
+      {/* @ts-ignore */}
       {!isLoading && resp?.totalNumberRows && (
         <Chip
           label={`Showing records ${
+            //@ts-ignore
             resp?.ScannedCount * (pageNumber - 1) + 1
+            //@ts-ignore
           } to ${resp?.ScannedCount * pageNumber}`}
           color="success"
         ></Chip>
@@ -149,9 +188,20 @@ export default function Visits() {
       <br />
       <br />
       {isLoading ? (
-        <div>Loading</div>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <CircularProgress />
+        </Box>
       ) : (
         <List>
+          {/* @ts-ignore */}
+
           {resp?.Items?.map((visit: any, index: number) => {
             let ls = visit.UserAgent.S + " - " + visit.Location.S;
             return (

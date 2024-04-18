@@ -5,8 +5,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import Link from "@/node_modules/next/link";
-import { useEffect } from "react";
-
+import { useEffect, useRef } from "react";
+import axios from "axios";
 
 const ProfileImage = () => {
   const mobile = useMediaQuery("(max-width:480px)");
@@ -93,7 +93,25 @@ const ProfileLinks = () => {
 
 export default function HomePage() {
   const mobile = useMediaQuery("(max-width:480px)");
+  const initialized = useRef(false);
 
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      (async () => {
+        axios
+          .post("https://api.valluri-tech.com/portfolio")
+          .then((response: any) => {
+            console.log(response);
+            // Handle the response
+          })
+          .catch((error: any) => {
+            // Handle errors
+            console.log("error");
+          });
+      })();
+    }
+  }, []);
   return (
     <>
       <ProfileImage />
