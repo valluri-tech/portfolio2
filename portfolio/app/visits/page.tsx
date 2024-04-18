@@ -2,19 +2,21 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Pagination from "../components/common/Pagination/index";
-import Button from "@mui/material/Button";
+import {
+  Box,
+  Button,
+  IconButton,
+  Chip,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemButton,
+  CircularProgress,
+  useMediaQuery,
+} from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import Box from "@mui/material/Box";
-import Chip from "@mui/material/Chip";
-import CircularProgress from "@mui/material/CircularProgress";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import IconButton from "@mui/material/IconButton";
+
 
 const BACKEND_PAGINATION_NUMBER = 5;
 export default function Visits() {

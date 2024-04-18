@@ -33,7 +33,8 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 1. Mobile view - visits page needs to handle responsiveness.
    WIP : Mostly done but little remaining.
 2. Use context api to send hit only once after visiting home page.
-3. UseEffect executing twice - send only one request.
+3. Profile visit timestamp in a Human readable way. For example : 18th April,2024 [3:45 pm AEST].
+4. UseEffect executing twice - send only one request.
    Done : Fixed using 'useRef'
-4. Fix the last page results in pagination.
+5. Fix the last page results in pagination.
    Done : Chcking for LastEvaluatedKey in the reponse and disabling.
