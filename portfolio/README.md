@@ -38,3 +38,6 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
    Done : Fixed using 'useRef'
 5. Fix the last page results in pagination.
    Done : Chcking for LastEvaluatedKey in the reponse and disabling.
+6. When there are less than 6 records - the Next button is enabled.
+   Done : USeeffect check added.
+7.

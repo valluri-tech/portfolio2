@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-
+import { getHRDFromDate } from "../util/index";
 
 const BACKEND_PAGINATION_NUMBER = 5;
 export default function Visits() {
@@ -38,6 +38,9 @@ export default function Visits() {
         .then((response: any) => {
           // Handle the response
           setResp(response?.data);
+          if (Object.keys(response?.data).indexOf("LastEvaluatedKey") === -1) {
+            SetIsNextBtnEnabled(false);
+          }
           setLekMap(
             lekMap.set(
               Number(pageNumber + 1).toString(),
@@ -212,10 +215,7 @@ export default function Visits() {
             return (
               <ListItem disablePadding key={index}>
                 <ListItemButton>
-                  <ListItemText
-                    primary={visit.DHMS.S.replace(/[#]/g, "-")}
-                    secondary={ls}
-                  />
+                  <ListItemText primary={visit.HitTIme.S} secondary={ls} />
                 </ListItemButton>
               </ListItem>
             );
