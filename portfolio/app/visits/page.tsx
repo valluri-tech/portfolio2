@@ -16,7 +16,6 @@ import {
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { getHRDFromDate } from "../util/index";
 
 const BACKEND_PAGINATION_NUMBER = 5;
 export default function Visits() {

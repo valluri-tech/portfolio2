@@ -1,17 +1,9 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
-
 First, run the development server:
-
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -40,4 +32,12 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
    Done : Chcking for LastEvaluatedKey in the reponse and disabling.
 6. When there are less than 6 records - the Next button is enabled.
    Done : USeeffect check added.
-7.
+
+
+## Steps to deploy to AWS
+1. Configure AWS AK and SAK in command line.
+   You will create a profile with a particular name.
+   Command : 
+   > aws configure
+   > ~/.aws/credentials
+2. 

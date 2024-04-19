@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "sync": "aws s3 sync ./out s3://valluri-tech.com --profile personalRootUser",
+    "invalidate": "aws cloudfront create-invalidation --distribution-id ELTOSVOLRI8IN --paths '/*' --profile personalRootUser",
+    "deploy": "npm run build && npm run sync && npm run invalidate"
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
